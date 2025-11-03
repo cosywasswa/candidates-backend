@@ -79,3 +79,17 @@ exports.registerCandidate = async (req, res) => {
     return res.status(500).json({ error: error?.message });
   }
 };
+
+exports.getCandidate = async(req, res)=>{
+    const _id = req.params._id
+    try{
+        const candidate = await Candidate.findById(_id)
+        if(!candidate){
+            return res.status(404).json({message: `Candidate with id ${_id} does not exist`})
+        }
+        return res.status(200).json({success: true, data: candidate})
+
+    }catch(error){
+        return res.status(500).json({message: error?.message})
+    }
+}
