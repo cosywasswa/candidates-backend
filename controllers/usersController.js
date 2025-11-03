@@ -14,7 +14,6 @@ exports.fetchUsers = async (req, res) => {
 
     return res.status(200).json({ success: true, data: users });
   } catch (error) {
-    console.log("error is", error)
     return res
       .status(500)
       .json({ message: "server error", error: error });
@@ -37,7 +36,6 @@ exports.signUp = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    console.log("hashed password", hashedPassword)
 
     const newUser = await user.save();
     newUser.password = undefined;

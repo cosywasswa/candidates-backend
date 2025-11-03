@@ -64,7 +64,6 @@ exports.registerCandidate = async (req, res) => {
     else if (score <= 17) candidateTier = 3;
     else candidateTier = 4;
 
-    console.log("score is", score);
     const candidate = new Candidate({
       name,
       email,
