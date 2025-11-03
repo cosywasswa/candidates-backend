@@ -4,7 +4,7 @@ const authorize = require('../middlewares/authorize')
 
 const router = express.Router()
 
-router.get('/candidates', authorize, fetchCandidates)
+router.get('/candidates', fetchCandidates)
 router.post('/candidates', registerCandidate)
 router.get('/candidates/:_id', getCandidate)
 
