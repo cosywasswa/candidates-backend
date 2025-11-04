@@ -21,12 +21,6 @@ mongoose
     console.log("Failed to connect", error);
   });
 
-// const random = Math.random()*10000000
-// const randomStr = random.toString();
-// console.log(random)
-// const encrypted = crypt.createHash('SHA256').update(randomStr).digest('hex')
-// console.log("encrypted", encrypted)
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());

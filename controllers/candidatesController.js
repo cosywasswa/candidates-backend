@@ -56,7 +56,7 @@ exports.registerCandidate = async (req, res) => {
       skills.includes("Proficient in Next.js, Express,Larvel and Hono") &&
       skills.includes("Knows Golang and can build simple APIs with Go")
     ) {
-      score += 8;
+      score += 10;
     }
    if (score <= 2) candidateTier = 0;
     else if (score <= 5) candidateTier = 1;
