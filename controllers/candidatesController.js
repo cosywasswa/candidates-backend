@@ -50,19 +50,19 @@ exports.registerCandidate = async (req, res) => {
       ) ||
       skills.includes("OR can build authenticated CRUD apps with Laravel")
     ) {
-      score += 7;
+      score += 5;
     }
     if (
       skills.includes("Proficient in Next.js, Express,Larvel and Hono") &&
       skills.includes("Knows Golang and can build simple APIs with Go")
     ) {
-      score += 20;
+      score += 5;
     }
    if (score <= 2) candidateTier = 0;
     else if (score <= 5) candidateTier = 1;
     else if (score <= 10) candidateTier = 2;
-    else if (score <= 17) candidateTier = 3;
-    else if (score > 17) candidateTier = 4;
+    else if (score <= 15) candidateTier = 3;
+    else candidateTier = 4;
 
     const candidate = new Candidate({
       name,
