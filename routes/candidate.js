@@ -6,6 +6,6 @@ const router = express.Router()
 
 router.get('/candidates', fetchCandidates)
 router.post('/candidates', registerCandidate)
-router.get('/candidates/:_id', getCandidate)
+router.get('/candidates/:_id', authorize, getCandidate)
 
 module.exports = router;
