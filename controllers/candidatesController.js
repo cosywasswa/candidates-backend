@@ -1,4 +1,13 @@
+const nodeMailer = require("nodemailer");
 const Candidate = require("../models/candidate");
+
+const transporter = nodeMailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PSWD,
+  },
+});
 
 exports.fetchCandidates = async (req, res) => {
   try {
@@ -16,6 +25,7 @@ exports.registerCandidate = async (req, res) => {
   const { name, email, contact, skills } = req.body;
   let candidateTier;
   let score = 0;
+
   try {
     if (!name || !email || !contact) {
       return res.status(401).json({ message: "Pliz provide all information" });
@@ -74,6 +84,15 @@ exports.registerCandidate = async (req, res) => {
 
     const newCandidate = await candidate.save();
 
+    const emailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: `New Message from desishub`,
+      text: `Hello candidate\n Your Tier is: ${newCandidate.tier}\n`,
+    };
+    await transporter
+      .sendMail(emailOptions)
+      
     return res.status(201).json({ success: true, data: newCandidate });
   } catch (error) {
     return res.status(500).json({ error: error?.message });
