@@ -53,7 +53,7 @@ exports.registerCandidate = async (req, res) => {
       score += 5;
     }
     if (
-      skills.includes("Proficient in Next.js, Express,Larvel and Hono") &&
+      skills.includes("Proficient in Next.js, Express, Laravel and Hono") &&
       skills.includes("Knows Golang and can build simple APIs with Go")
     ) {
       score += 5;
