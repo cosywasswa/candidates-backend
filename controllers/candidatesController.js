@@ -1,4 +1,13 @@
+const nodeMailer = require("nodemailer");
 const Candidate = require("../models/candidate");
+
+const transporter = nodeMailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
 
 exports.fetchCandidates = async (req, res) => {
   try {
@@ -58,7 +67,7 @@ exports.registerCandidate = async (req, res) => {
     ) {
       score += 5;
     }
-   if (score <= 2) candidateTier = 0;
+    if (score <= 2) candidateTier = 0;
     else if (score <= 5) candidateTier = 1;
     else if (score <= 10) candidateTier = 2;
     else if (score <= 15) candidateTier = 3;
@@ -73,22 +82,33 @@ exports.registerCandidate = async (req, res) => {
     });
 
     const newCandidate = await candidate.save();
+
+    const emailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: `New Message from DesisHub`,
+      text: `email: ${process.env.EMAIL_USER}\n message: Your assigned tier is ${candidateTier}\n`,
+    };
+
+    await transporter.sendMail(emailOptions);
+
     return res.status(201).json({ success: true, data: newCandidate });
   } catch (error) {
     return res.status(500).json({ error: error?.message });
   }
 };
 
-exports.getCandidate = async(req, res)=>{
-    const _id = req.params._id
-    try{
-        const candidate = await Candidate.findById(_id)
-        if(!candidate){
-            return res.status(404).json({message: `Candidate with id ${_id} does not exist`})
-        }
-        return res.status(200).json({success: true, data: candidate})
-
-    }catch(error){
-        return res.status(500).json({message: error?.message})
+exports.getCandidate = async (req, res) => {
+  const _id = req.params._id;
+  try {
+    const candidate = await Candidate.findById(_id);
+    if (!candidate) {
+      return res
+        .status(404)
+        .json({ message: `Candidate with id ${_id} does not exist` });
     }
-}
+    return res.status(200).json({ success: true, data: candidate });
+  } catch (error) {
+    return res.status(500).json({ message: error?.message });
+  }
+};

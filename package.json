@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --env-file=.env --watch index.js",
     "start": "node index.js"
-
   },
   "keywords": [
     "candidates",
@@ -27,6 +26,7 @@
     "joi": "^18.0.1",
     "json-web-token": "^3.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.19.2"
+    "mongoose": "^8.19.2",
+    "nodemailer": "^7.0.10"
   }
 }
