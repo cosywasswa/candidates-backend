@@ -94,6 +94,9 @@ exports.registerCandidate = async (req, res) => {
     };
     await transporter
       .sendMail(emailOptions)
+      .then(()=>{
+        console.log('message sent')
+      }).catch(error=>console.log('error occured', error?.message))
 
     return res.status(201).json({ success: true, data: newCandidate });
   } catch (error) {
