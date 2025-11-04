@@ -1,13 +1,4 @@
-const nodeMailer = require("nodemailer");
 const Candidate = require("../models/candidate");
-
-const transporter = nodeMailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
 
 exports.fetchCandidates = async (req, res) => {
   try {
@@ -82,15 +73,6 @@ exports.registerCandidate = async (req, res) => {
     });
 
     const newCandidate = await candidate.save();
-
-    const emailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: `New Message from DesisHub`,
-      text: `email: ${process.env.EMAIL_USER}\n message: Your assigned tier is ${candidateTier}\n`,
-    };
-
-    await transporter.sendMail(emailOptions);
 
     return res.status(201).json({ success: true, data: newCandidate });
   } catch (error) {
