@@ -1,15 +1,7 @@
-const nodeMailer = require("nodemailer");
+const { Resend } = require("resend");
 const Candidate = require("../models/candidate");
 
-const transporter = nodeMailer.createTransport({
- host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PSWD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 exports.fetchCandidates = async (req, res) => {
   try {
@@ -86,17 +78,12 @@ exports.registerCandidate = async (req, res) => {
 
     const newCandidate = await candidate.save();
 
-    const emailOptions = {
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: "Desishub <onboarding@resend.dev>",
       to: email,
       subject: `New Message from desishub`,
       text: `Hello candidate\n Your Tier is: ${newCandidate.tier}\n`,
-    };
-    await transporter
-      .sendMail(emailOptions)
-      .then(()=>{
-        console.log('message sent')
-      }).catch(error=>console.log('error occured', error?.message))
+    });
 
     return res.status(201).json({ success: true, data: newCandidate });
   } catch (error) {
