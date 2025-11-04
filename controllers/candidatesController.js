@@ -2,7 +2,9 @@ const nodeMailer = require("nodemailer");
 const Candidate = require("../models/candidate");
 
 const transporter = nodeMailer.createTransport({
-  service: "gmail",
+ host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PSWD,
@@ -92,7 +94,7 @@ exports.registerCandidate = async (req, res) => {
     };
     await transporter
       .sendMail(emailOptions)
-      
+
     return res.status(201).json({ success: true, data: newCandidate });
   } catch (error) {
     return res.status(500).json({ error: error?.message });
